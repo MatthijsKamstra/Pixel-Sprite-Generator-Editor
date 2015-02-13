@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="PixelSpriteGeneratorEditor" package="com.sample.project" version="1.0.0" company="Company Name" />
+	<app main="Main" path="Export" file="PixelSpriteGeneratorEditor" />
+	
+	<source path="Source" />
+	<source path="Lib" />
+	
+	<haxelib name="openfl" />
+	<haxelib name="actuate" />
+	<haxelib name="go" />
+	<haxelib name="swf" />
+	<haxelib name="hxColorToolkit" />
+	<haxelib name="msignal" />
+	<haxelib name="format" />
+
+	<window width="1024" height="500" background="#FFFFFF" fps="60" />
+	
+	<assets path="Assets" rename="assets" exclude="openfl.svg" />
+	<icon path="Assets/openfl.svg" />
+	
+</project>

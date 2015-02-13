@@ -1,0 +1,35 @@
+{
+     "_hxcls" : "projectaccess.Project"
+    ,"type" : 1
+    ,"target" : null
+    ,"name" : "Pixel-sprite-generator-editor"
+    ,"main" : null
+    ,"projectPackage" : ""
+    ,"company" : ""
+    ,"license" : ""
+    ,"url" : ""
+    ,"targetData" : [
+
+    ]
+    ,"files" : [
+         {
+             "path" : "Source/Main.hx"
+            ,"useTabs" : true
+            ,"indentSize" : 4
+            ,"foldedRegions" : [
+
+            ]
+            ,"activeLine" : 0
+        }
+    ]
+    ,"activeFile" : "Source/Main.hx"
+    ,"openFLTarget" : "flash"
+    ,"openFLBuildMode" : "Debug"
+    ,"runActionType" : 2
+    ,"runActionText" : "haxelib run lime run \"%path%\" flash"
+    ,"buildActionCommand" : "haxelib run lime build \"%path%\" flash --connect 5000"
+    ,"hiddenItems" : [
+
+    ]
+    ,"showHiddenItems" : false
+}
