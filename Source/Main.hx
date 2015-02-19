@@ -531,10 +531,10 @@ class Main extends Sprite {
 		trace( "export"  );
 		sprite = new psg.Sprite(_currentMask, true , edgeBrightness, colorVariations, brightnessNoise, saturation );
 		
+		#if (neko)
 		var _unique = Date.now().toString();
-
-
 		util.SaveImage.saveImage(sprite.bitmap.bitmapData, '_assets/'+_unique+'.png');
+		#end
 	}
 
 	function copyArray():Void
