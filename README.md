@@ -13,7 +13,7 @@ So I decide to build an editor for it in 8 hours.
 
 This project is not done, and perhaps I will never finish it. 
 There are probably a lot of issues with it and currently it only exports to Neko.
-But it could be a start of an sprite editor for example :) .
+But it could be a start of an sprite editor for example :) ..
 
 ##Editor
 ![image](screenshot.png)
