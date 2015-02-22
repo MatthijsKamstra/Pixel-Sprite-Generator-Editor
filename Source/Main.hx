@@ -157,89 +157,16 @@ class Main extends Sprite {
 		updateCurrentColor();
 	}
 
-	function updatePreview():Void
-	{
-		// remove all childern
-		while (_previewContainer.numChildren > 0) {
-			_previewContainer.removeChildAt(0);
-		}
-
-
-		for (i in 0...SPRITE_COUNT)
-		{
-			if (isColored)
-				sprite = new psg.Sprite(_currentMask, true , edgeBrightness, colorVariations, brightnessNoise, saturation );
-			else 
-				sprite = new psg.Sprite(_currentMask, false );
-
-			placeSprite( sprite , _previewContainer, i);
-		}
-
-		_previewContainer.x = this.stage.stageWidth - _previewContainer.width - SPRITE_SPACING;
-		_previewContainer.y = this.stage.stageHeight - _previewContainer.height  - SPRITE_SPACING;
-	}
-
-	/**
-	* Enlarges and places sprite to the view.
-	* @return
-	*/
-	private function placeSprite( sprite:psg.Sprite , container:Sprite, xpos:Int):Void
-	{
-		sprite.bitmap.scaleX = SPRITE_SCALE;
-		sprite.bitmap.scaleY = SPRITE_SCALE;
-
-		sprite.bitmap.x = xpos * (sprite.bitmap.width + SPRITE_SPACING);
-
-
-		container.addChild( sprite.bitmap );
-	}
-
-	function updateCanvas():Void
-	{
-		// remove all childern
-		while (_canvasContainer.numChildren > 0) {
-			_canvasContainer.removeChildAt(0);
-		}
-
-		var canvasView = new view.CanvasView(_currentMask);
-		canvasView.signal.add(onSignalHandler);
-		_canvasContainer.addChild(canvasView);
-
-		_canvasContainer.x = (this.stage.stageWidth - _canvasContainer.width )/2;
-		_canvasContainer.y = (this.stage.stageHeight - _canvasContainer.height )/2;
-	}
-
-	private function onSignalHandler(mask:psg.Mask):Void 
-	{ 
-		_currentMask = mask;
-		updatePreview();
-	}
 
 	private function initialize():Void 
 	{
 		_preSetArray   = [
-				{
-					label : 'custom',
-					data : custom
-				}, 
-				{
-					label : 'humanoid',
-					data : humanoid
-				}, 
-				{
-					label : 'spaceship',
-					data : spaceship
-				}, 
-				{
-					label : 'dragon',
-					data : dragon
-				}, 
-				{
-					label : 'robot',
-					data : robot
-				}
+				{ label : 'custom', data : custom }, 
+				{ label : 'humanoid', data : humanoid }, 
+				{ label : 'spaceship', data : spaceship }, 
+				{ label : 'dragon', data : dragon }, 
+				{ label : 'robot', data : robot }
 			];
-
 
 		Lib.current.stage.align = StageAlign.TOP_LEFT;
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -248,7 +175,6 @@ class Main extends Sprite {
 		_currentMask = humanoid;
 
 		this.addChild(_canvasContainer);
-
 		this.addChild(_previewContainer);
 		
 		_menuContainer = new Sprite();
@@ -258,15 +184,11 @@ class Main extends Sprite {
 		var fps:FPSMeter = new FPSMeter(this, stage.stageWidth-100, 20);
 	}
 
-
 	// var _toolArray:Array<String> = ['pencil tool (p)', 'eraser tool (e)', 'zoom tool (z)', 'canvas tool (c)', 'flip horizontal', 'flip vertical'];
 
 	function buildMenu():Void
 	{
-
-			
-		Style.setStyle(Style.LIGHT);
-		
+		Style.setStyle(Style.LIGHT);	
 
 		var window:Window = new Window(_menuContainer, 10, 10, 'Tools');
 		window.hasMinimizeButton = true;
@@ -427,7 +349,94 @@ class Main extends Sprite {
 
 
 	}
+
+	// ____________________________________ update ____________________________________
+
+	function updateCanvas():Void
+	{
+		// remove all childern
+		while (_canvasContainer.numChildren > 0) {
+			_canvasContainer.removeChildAt(0);
+		}
+
+		var canvasView = new view.CanvasView(_currentMask);
+		canvasView.signal.add(onSignalHandler);
+		_canvasContainer.addChild(canvasView);
+
+		_canvasContainer.x = Std.int ((this.stage.stageWidth - _canvasContainer.width )/2);
+		_canvasContainer.y = Std.int ((this.stage.stageHeight - _canvasContainer.height )/2);
+	}
+
+	function updatePreview():Void
+	{
+		// remove all childern
+		while (_previewContainer.numChildren > 0) {
+			_previewContainer.removeChildAt(0);
+		}
+
+
+		for (i in 0...SPRITE_COUNT)
+		{
+			if (isColored)
+				sprite = new psg.Sprite(_currentMask, true , edgeBrightness, colorVariations, brightnessNoise, saturation );
+			else 
+				sprite = new psg.Sprite(_currentMask, false );
+
+			placeSprite( sprite , _previewContainer, i);
+		}
+
+		_previewContainer.x = Std.int (this.stage.stageWidth - _previewContainer.width - SPRITE_SPACING);
+		_previewContainer.y = Std.int (this.stage.stageHeight - _previewContainer.height  - SPRITE_SPACING);
+	}
+
+	function updateCurrentColor():Void
+	{
+		// 
+	}
+
+	// ____________________________________ utils ____________________________________
+
+	/**
+	* Enlarges and places sprite to the view.
+	* @return
+	*/
+	private function placeSprite( sprite:psg.Sprite , container:Sprite, xpos:Int):Void
+	{
+		sprite.bitmap.scaleX = SPRITE_SCALE;
+		sprite.bitmap.scaleY = SPRITE_SCALE;
+
+		sprite.bitmap.x = xpos * (sprite.bitmap.width + SPRITE_SPACING);
+
+		container.addChild( sprite.bitmap );
+	}
+
+	function export():Void
+	{
+		trace( "export"  );
+		sprite = new psg.Sprite(_currentMask, true , edgeBrightness, colorVariations, brightnessNoise, saturation );
+		
+		#if (neko)
+		var _unique = Date.now().toString();
+		util.SaveImage.saveImage(sprite.bitmap.bitmapData, '_assets/'+_unique+'.png');
+		#end
+	}
+
+	function copyArray():Void
+	{
+		// var clip = Clipboard.generalClipboard;
+		// clip.clear();
+		// clip.setData(ClipboardFormats.TEXT_FORMAT, _currentMask);
+		// trace("Copied!");
+	}
+
+	// ____________________________________ handlers ____________________________________
 	
+	private function onSignalHandler(mask:psg.Mask):Void 
+	{ 
+		_currentMask = mask;
+		updatePreview();
+	}
+
 	function onComboBoxHandler(e:Event):Void{
 
 		var combobox = cast (e.currentTarget, ComboBox);
@@ -489,10 +498,7 @@ class Main extends Sprite {
 
 	}
 
-	function updateCurrentColor():Void
-	{
-		// 
-	}
+
 
 	function sliderHandler(e:Event):Void
 	{
@@ -526,24 +532,7 @@ class Main extends Sprite {
 
 	}
 
-	function export():Void
-	{
-		trace( "export"  );
-		sprite = new psg.Sprite(_currentMask, true , edgeBrightness, colorVariations, brightnessNoise, saturation );
-		
-		#if (neko)
-		var _unique = Date.now().toString();
-		util.SaveImage.saveImage(sprite.bitmap.bitmapData, '_assets/'+_unique+'.png');
-		#end
-	}
 
-	function copyArray():Void
-	{
-		// var clip = Clipboard.generalClipboard;
-		// clip.clear();
-		// clip.setData(ClipboardFormats.TEXT_FORMAT, _currentMask);
-		// trace("Copied!");
-	}
 
 	function checkBoxHandler(e:MouseEvent):Void
 	{
