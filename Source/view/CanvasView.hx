@@ -70,14 +70,15 @@ class CanvasView extends Sprite
 	function onMouseDownHandler(e:MouseEvent):Void
 	{
 		_isDrag = true;
-		openfl.Lib.stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
+		openfl.Lib.current.stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
+		// openfl.Lib.stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
 	}
 	
 	function onMouseUpHandler (e:MouseEvent):Void
 	{
 		_isDrag = false;
 		hitTest(Std.int (e.localX),Std.int (e.localY));
-		openfl.Lib.stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
+		openfl.Lib.current.stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
 	}
 
 	function onMouseMoveHandler (e:MouseEvent):Void
