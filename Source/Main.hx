@@ -119,23 +119,9 @@ class Main extends Sprite {
 	0, 1, 2, 2,
 	1, 1, 0, 0
 	], 4, 11, true, false);
-	var custom = new psg.Mask([
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-	], 15, 15, true, false);
+	
+	var custom 		= new psg.Mask([], 15, 15, true, false);
+	var customBig 	= new psg.Mask([], 25, 25, true, false);
 
 	private var SPRITE_COUNT:Int = 10; 
 	private var SPRITE_XMAX:Int = 700;
@@ -178,6 +164,7 @@ class Main extends Sprite {
 	{
 		_preSetArray   = [
 				{ label : 'custom', data : custom }, 
+				{ label : 'customBig', data : customBig }, 
 				{ label : 'humanoid', data : humanoid }, 
 				{ label : 'spaceship', data : spaceship }, 
 				{ label : 'dragon', data : dragon }, 
@@ -258,7 +245,7 @@ class Main extends Sprite {
 
 
 		combobox = new ComboBox(vbox4, 0, 0, _preSetArray[1].label, _preSetArray );
-		combobox.selectedIndex = 1;
+		combobox.selectedIndex = 2;
 		combobox.addEventListener(Event.SELECT, onComboBoxHandler);
 
 		var Label = new Label(vbox4, 0, 0, 'canvas width');
@@ -503,7 +490,18 @@ class Main extends Sprite {
 		var combobox = cast (e.currentTarget, ComboBox);
 		// trace(combobox.selectedIndex + " // " + _preSetArray[combobox.selectedIndex]);
 
-		_currentMask = _preSetArray[combobox.selectedIndex].data;
+		// [mck] just fill the array with zeros
+		var _tempMask : psg.Mask = _preSetArray[combobox.selectedIndex].data;
+		var _arr = [];
+		if(_tempMask.data.length <= 0)
+		{
+			for (i in 0... (_tempMask.width * _tempMask.height) ) {
+				_arr.push(0);
+			}
+			_tempMask.data = _arr;
+		}
+
+		_currentMask = _tempMask;
 
 
 		_canvasWStepper.value = _currentMask.width;
