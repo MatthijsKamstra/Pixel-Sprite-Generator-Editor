@@ -120,11 +120,22 @@ class Main extends Sprite {
 	1, 1, 0, 0
 	], 4, 11, true, false);
 	var custom = new psg.Mask([
-	0, 0, 0, 0,
-	0, 0, 0, 0,
-	0, 0, 0, 0,
-	0, 0, 0, 0
-	], 4, 4, true, false);
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+	], 15, 15, true, false);
 
 	private var SPRITE_COUNT:Int = 10; 
 	private var SPRITE_XMAX:Int = 700;
@@ -145,7 +156,10 @@ class Main extends Sprite {
 	private var _canvasHStepper : NumericStepper;
 	private var _canvasMirrorXCheckbox : CheckBox;
 	private var _canvasMirrorYCheckbox : CheckBox;
+	private var _textArea : TextArea;
+
 	private var combobox : ComboBox;
+
 
 	public function new () 
 	{
@@ -155,6 +169,7 @@ class Main extends Sprite {
 		updateCanvas();
 		updatePreview ();
 		updateCurrentColor();
+		copyData();
 	}
 
 
@@ -348,6 +363,23 @@ class Main extends Sprite {
 		window3.width = window3.content.width + 100;
 
 
+		var window4:Window = new Window(_menuContainer, this.stage.stageWidth-210, 50, 'Export data');
+		window4.hasMinimizeButton = true;	
+		window4.width = 200;
+		window4.height = 400;
+		window4.minimized = true;
+
+
+		var vbox4 = new VBox(window4.content);
+
+		_textArea = new TextArea (vbox4, 0,0 , 'test');
+		_textArea.width = 200;
+
+		// var Label = new Label(vbox4, 0, 0, 'copy data');
+
+		var btn = new PushButton(vbox4, 0, 0, "Refresh Data", pushbuttonHandler);
+
+		window4.height = window3.content.height + 70;
 	}
 
 	// ____________________________________ update ____________________________________
@@ -421,12 +453,19 @@ class Main extends Sprite {
 		#end
 	}
 
-	function copyArray():Void
+	function copyData():Void
 	{
-		// var clip = Clipboard.generalClipboard;
-		// clip.clear();
-		// clip.setData(ClipboardFormats.TEXT_FORMAT, _currentMask);
-		// trace("Copied!");
+		var _str = "var custom = new psg.Mask("+ _currentMask + ");";
+		_textArea.text = _str;
+
+		trace( "\n----- Copy data:  ------\n" + _str + "\n-------------------");
+
+		#if (flash)
+		var clip = flash.desktop.Clipboard.generalClipboard;
+		clip.clear();
+		clip.setData( flash.desktop.ClipboardFormats.TEXT_FORMAT, _str);
+		trace("Copied! in flash");
+		#end
 	}
 
 	// ____________________________________ handlers ____________________________________
@@ -452,7 +491,7 @@ class Main extends Sprite {
 
 		updateCanvas();
 		updatePreview();
-
+		copyData();
 	}
 	
 	function numStepperHandler(e:Event):Void
@@ -524,8 +563,9 @@ class Main extends Sprite {
 		switch (btn.label) {
 
 			case "refresh" 			: updatePreview() ; // trace ("refresh");
-			case "copy array" 		: copyArray();
+			case "copy array" 		: copyData();
 			case "export" 			: export();
+			case "Refresh Data" 	: copyData();
 
 			default : trace('case "' + btn.label + '" : trace ("' + btn.label + '");');
 		}
