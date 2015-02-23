@@ -157,6 +157,7 @@ class Main extends Sprite {
 	private var _canvasMirrorXCheckbox : CheckBox;
 	private var _canvasMirrorYCheckbox : CheckBox;
 	private var _textArea : TextArea;
+	private var _slider : HSlider;
 
 	private var combobox : ComboBox;
 
@@ -222,6 +223,11 @@ class Main extends Sprite {
 		var radioBtn  = new RadioButton(vbox1, 0, 0, ToolsConstant.ZOOM.description, false, radiobuttonHandler);
 		radioBtn.groupName = _groupName;
 		*/
+
+
+		var Label = new Label(vbox1, 0, 0, 'Zoom level canvas:');
+		_slider = new com.bit101.components.HSlider(vbox1, 0,0, ZoomSliderHandler);
+		_slider.setSliderParams(0.5, 3, 1);
 
 		// var btn = new PushButton(vbox1, 0, 0, ToolsConstant.PENCIL.description, pushbuttonHandler);
 		// var btn = new PushButton(vbox1, 0, 0, ToolsConstant.ERASER.description, pushbuttonHandler);
@@ -395,6 +401,11 @@ class Main extends Sprite {
 		canvasView.signal.add(onSignalHandler);
 		_canvasContainer.addChild(canvasView);
 
+		centerCanvas();
+	}
+
+	function centerCanvas():Void
+	{
 		_canvasContainer.x = Std.int ((this.stage.stageWidth - _canvasContainer.width )/2);
 		_canvasContainer.y = Std.int ((this.stage.stageHeight - _canvasContainer.height )/2);
 	}
@@ -449,7 +460,7 @@ class Main extends Sprite {
 		
 		#if (neko)
 		var _unique = Date.now().toString();
-		util.SaveImage.saveImage(sprite.bitmap.bitmapData, '_assets/'+_unique+'.png');
+		util.SaveImage.saveImage(sprite.bitmap.bitmapData, null, util.SaveImage.Directory.Desktop,'_pixel-sprite-export');
 		#end
 	}
 
@@ -470,6 +481,13 @@ class Main extends Sprite {
 
 	// ____________________________________ handlers ____________________________________
 	
+	function ZoomSliderHandler(e:Event):Void
+	{
+		_canvasContainer.scaleX = 
+		_canvasContainer.scaleY = _slider.value; 
+		centerCanvas();
+	}
+
 	private function onSignalHandler(mask:psg.Mask):Void 
 	{ 
 		_currentMask = mask;
