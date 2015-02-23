@@ -23,3 +23,4 @@ But it could be a start of an sprite editor for example :) ..
 
 * Haxe procedural sprite generator: https://github.com/Zielak/pixel-sprite-generator
 * Haxe port of Keith Peters minimalcomps: https://github.com/Beeblerox/MinimalCompsHX
+* Openfl
