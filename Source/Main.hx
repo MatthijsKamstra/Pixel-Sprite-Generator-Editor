@@ -229,6 +229,10 @@ class Main extends Sprite {
 		_slider = new com.bit101.components.HSlider(vbox1, 0,0, ZoomSliderHandler);
 		_slider.setSliderParams(0.5, 3, 1);
 
+		// [mck] doesn't fit, so leave it for now
+		// var slider = new HUISlider(vbox1, 0, 0, Zoom level canvas:', ZoomSliderHandler);
+		// slider.setSliderParams(0.5, 3, 1);
+
 		// var btn = new PushButton(vbox1, 0, 0, ToolsConstant.PENCIL.description, pushbuttonHandler);
 		// var btn = new PushButton(vbox1, 0, 0, ToolsConstant.ERASER.description, pushbuttonHandler);
 		// var btn = new PushButton(vbox1, 0, 0, ToolsConstant.ZOOM.description, pushbuttonHandler);
@@ -555,8 +559,6 @@ class Main extends Sprite {
 
 	}
 
-
-
 	function sliderHandler(e:Event):Void
 	{
 		var component = cast (e.currentTarget, HUISlider);
@@ -590,16 +592,14 @@ class Main extends Sprite {
 
 	}
 
-
-
 	function checkBoxHandler(e:MouseEvent):Void
 	{
 		// trace(e.currentTarget);
 		var checkbox = cast (e.currentTarget, CheckBox);
 		switch (checkbox.label) 
 		{
-			case 'flip vertical' 	: trace ("flip vertical");
-			case 'flip horizontal' 	: trace ("flip horizontal");
+			case 'flip vertical' 	: _currentMask.mirrorX = checkbox.selected; updatePreview(); // trace ("flip vertical"); 
+			case 'flip horizontal' 	: _currentMask.mirrorY = checkbox.selected; updatePreview(); // trace ("flip horizontal"); 
 			case 'colored' 			: isColored = checkbox.selected; updatePreview(); // trace ("colored");
 
 			default : trace('case "' + checkbox.label + '" : trace ("' + checkbox.label + '");');
