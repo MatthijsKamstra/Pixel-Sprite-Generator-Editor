@@ -79,6 +79,7 @@ class CanvasView extends Sprite
 		_isDrag = false;
 		hitTest(Std.int (e.localX),Std.int (e.localY));
 		openfl.Lib.current.stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
+		signal.dispatch(_mask);
 	}
 
 	function onMouseMoveHandler (e:MouseEvent):Void
@@ -105,7 +106,8 @@ class CanvasView extends Sprite
 
 		_mask.data = _colorArray;
 
-		signal.dispatch(_mask);
+		// [mck] little to heavy for most targets
+		// signal.dispatch(_mask);
 		
 	}
 	

@@ -378,7 +378,7 @@ class Main extends Sprite {
 
 		var vbox4 = new VBox(window4.content);
 
-		_textArea = new TextArea (vbox4, 0,0 , 'test');
+		_textArea = new TextArea (vbox4, 0,0 , '');
 		_textArea.width = 200;
 
 		// var Label = new Label(vbox4, 0, 0, 'copy data');
