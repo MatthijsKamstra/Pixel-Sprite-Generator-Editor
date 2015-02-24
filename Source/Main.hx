@@ -119,7 +119,7 @@ class Main extends Sprite {
 	0, 1, 2, 2,
 	1, 1, 0, 0
 	], 4, 11, true, false);
-	
+
 	var custom 		= new psg.Mask([], 15, 15, true, false);
 	var customBig 	= new psg.Mask([], 25, 25, true, false);
 
@@ -144,6 +144,8 @@ class Main extends Sprite {
 	private var _canvasMirrorYCheckbox : CheckBox;
 	private var _textArea : TextArea;
 	private var _slider : HSlider;
+	private var _panel : Panel;
+	private var _checkbox : CheckBox;
 
 	private var combobox : ComboBox;
 
@@ -267,17 +269,16 @@ class Main extends Sprite {
 
 
 
-/**
- *    *      -1 = Always border (black)
-   *       0 = Empty
-   *       1 = Randomly chosen Empty/Body
-   *       2 = Randomly chosen Border/Body
- */
-
+		/**
+		*	-1 = Always border (black)
+		*	0 = Empty
+		*	1 = Randomly chosen Empty/Body
+		*	2 = Randomly chosen Border/Body
+		*/
+	
 		var window2:Window = new Window(_menuContainer, 10, 200, 'Color');
 		window2.hasMinimizeButton = true;
 		// window2.hasCloseButton = true;
-
 
 		var hbox2 = new HBox(window2.content);
 		var vbox2 = new VBox(hbox2);
@@ -309,26 +310,22 @@ class Main extends Sprite {
 	
 		window2.height = window2.content.height + 20 + 20;
 
-	/**
- colored : true, // boolean
-* edgeBrightness : 0.3, // value from 0 to 1
-* colorVariations : 0.2, // value from 0 to 1
-* brightnessNoise : 0.3, // value from 0 to 1
-* saturation : 0.5 // value from 0 to 1
-	 */
+		/**
+		* colored : true, // boolean
+		* edgeBrightness : 0.3, // value from 0 to 1
+		* colorVariations : 0.2, // value from 0 to 1
+		* brightnessNoise : 0.3, // value from 0 to 1
+		* saturation : 0.5 // value from 0 to 1
+		*/
 		
-
-
 		var window3:Window = new Window(_menuContainer, 10, 350, 'Settings');
 		window3.hasMinimizeButton = true;
 		// window3.hasCloseButton = true;
 
-
 		var vbox3 = new VBox(window3.content);
 
-
-		var checkbox = new CheckBox(vbox3, 0, 0, SettingsConstant.COLORED.description, checkBoxHandler);
-		checkbox.selected = isColored;
+		_checkbox = new CheckBox(vbox3, 0, 0, SettingsConstant.COLORED.description, checkBoxHandler);
+		_checkbox.selected = isColored;
 
 		var slider = new HUISlider(vbox3, 0, 0, SettingsConstant.EDGE_BRIGHTNESS.description, sliderHandler);
 		slider.maximum = SettingsConstant.EDGE_BRIGHTNESS.maximum;
@@ -354,18 +351,19 @@ class Main extends Sprite {
 		slider.value = SettingsConstant.SATURATION.value;
 		slider.tick = SettingsConstant.SATURATION.tick;
 		
-
-
 		window3.height = window3.content.height + 20 + 20;
 		window3.width = window3.content.width + 100;
 
 
+		/**
+		 *
+		 * 
+		 */
 		var window4:Window = new Window(_menuContainer, this.stage.stageWidth-210, 50, 'Export data');
 		window4.hasMinimizeButton = true;	
 		window4.width = 200;
 		window4.height = 400;
 		window4.minimized = true;
-
 
 		var vbox4 = new VBox(window4.content);
 
@@ -408,6 +406,8 @@ class Main extends Sprite {
 			_previewContainer.removeChildAt(0);
 		}
 
+		_panel = new Panel (_previewContainer,-SPRITE_SPACING,-SPRITE_SPACING);
+		_panel.showGrid = true;
 
 		for (i in 0...SPRITE_COUNT)
 		{
@@ -419,8 +419,11 @@ class Main extends Sprite {
 			placeSprite( sprite , _previewContainer, i);
 		}
 
-		_previewContainer.x = Std.int (this.stage.stageWidth - _previewContainer.width - SPRITE_SPACING);
-		_previewContainer.y = Std.int (this.stage.stageHeight - _previewContainer.height  - SPRITE_SPACING);
+		_panel.setSize(_previewContainer.width+(2*SPRITE_SPACING),_previewContainer.height+(2*SPRITE_SPACING));
+		// _panel.gridSize = Std.int (10);
+
+		_previewContainer.x = Std.int (this.stage.stageWidth - _previewContainer.width - (2*SPRITE_SPACING));
+		_previewContainer.y = Std.int (this.stage.stageHeight - _previewContainer.height  - (2*SPRITE_SPACING));
 	}
 
 	function updateCurrentColor():Void
@@ -447,7 +450,7 @@ class Main extends Sprite {
 	function export():Void
 	{
 		trace( "export"  );
-		sprite = new psg.Sprite(_currentMask, true , edgeBrightness, colorVariations, brightnessNoise, saturation );
+		sprite = new psg.Sprite(_currentMask, _checkbox.selected , edgeBrightness, colorVariations, brightnessNoise, saturation );
 		
 		#if (neko)
 		var _unique = Date.now().toString();
@@ -460,13 +463,13 @@ class Main extends Sprite {
 		var _str = "var custom = new psg.Mask("+ _currentMask + ");";
 		_textArea.text = _str;
 
-		trace( "\n----- Copy data:  ------\n" + _str + "\n-------------------");
-
 		#if (flash)
 		var clip = flash.desktop.Clipboard.generalClipboard;
 		clip.clear();
 		clip.setData( flash.desktop.ClipboardFormats.TEXT_FORMAT, _str);
-		trace("Copied! in flash");
+		// trace("Copied! in flash");
+		#else
+		trace( "\n----- Copy data:  ------\n" + _str + "\n-------------------");
 		#end
 	}
 
