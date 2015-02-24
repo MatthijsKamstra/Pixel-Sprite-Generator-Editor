@@ -26,33 +26,32 @@ class Sprite
 	/**
 	*	The Sprite class makes use of a Mask instance to generate a 2D sprite.
 	*
-	*	colored	 : true,	// boolean
-	*	 edgeBrightness  : 0.3,	// value from 0 to 1
-	*       colorVariations : 0.2,    // value from 0 to 1
-	*       brightnessNoise : 0.3,    // value from 0 to 1
-	*       saturation      : 0.5     // value from 0 to 1
+	*	colored	 : true,			// boolean
+	*	edgeBrightness  : 0.3,		// value from 0 to 1
+	*	colorVariations : 0.2,    	// value from 0 to 1
+	*	brightnessNoise : 0.3,   	// value from 0 to 1
+	*	saturation      : 0.5     	// value from 0 to 1
 	*
 	*   @class Sprite
 	*   @param {mask}
 	*   @param {options} 
 	*   @constructor
 	*/
- 
 	public function new( mask_:Mask, 
-		?isColored_:Bool = false,
-		?edgeBrightness_:Float = 0.3, 
-		?colorVariations_:Float = 0.2,
-		?brightnessNoise_:Float = 0.3, 
-		?saturation_:Float = 0.5
-		):Void
+						?isColored_:Bool = false,
+						?edgeBrightness_:Float = 0.3, 
+						?colorVariations_:Float = 0.2,
+						?brightnessNoise_:Float = 0.3, 
+						?saturation_:Float = 0.5
+						):Void
 	{
-		mask	= mask_;
-		width     = mask.width * (mask.mirrorX ? 2 : 1);
-		height    = mask.height * (mask.mirrorY ? 2 : 1);
+		mask			= mask_;
+		width     		= mask.width * (mask.mirrorX ? 2 : 1);
+		height    		= mask.height * (mask.mirrorY ? 2 : 1);
 
-		data	= new Array<Int>();
+		data			= new Array<Int>();
 
-		isColored	= isColored_;
+		isColored		= isColored_;
 		edgeBrightness  = edgeBrightness_;
 		colorVariations = colorVariations_;
 		brightnessNoise = brightnessNoise_;
@@ -91,7 +90,7 @@ class Sprite
 	private function initBitmapdata():Void
 	{
 		_bitmapData = new BitmapData(width, height);
-	};
+	}
 
 	private function initBitmap():Void
 	{
@@ -174,7 +173,7 @@ class Sprite
 		{
 			for (x in 0...w)
 			{
-			setData(width - x - 1, y, getData(x, y));
+				setData(width - x - 1, y, getData(x, y));
 			}
 		}
 	};
@@ -197,7 +196,7 @@ class Sprite
 		{
 			for (x in 0...w)
 			{
-			setData(x, height - y - 1, getData(x, y));
+				setData(x, height - y - 1, getData(x, y));
 			}
 		}
 	};
@@ -223,7 +222,7 @@ class Sprite
 		{
 			for (x in 0...w)
 			{
-			setData(x, y, mask.data[y * w + x]);
+				setData(x, y, mask.data[y * w + x]);
 			}
 		}
 	};
@@ -254,25 +253,25 @@ class Sprite
 		{
 			for (x in 0...w)
 			{
-			val = getData(x, y);
+				val = getData(x, y);
 
-			if (val == 1)
-			{
-				val = val * Math.round( Math.random() );
-			}
-			else if (val == 2)
-			{
-				if (Math.random() > 0.5)
+				if (val == 1)
 				{
-				val = 1;
+					val = val * Math.round( Math.random() );
 				}
-				else
+				else if (val == 2)
 				{
-				val = -1;
-				}
-			} 
+					if (Math.random() > 0.5)
+					{
+						val = 1;
+					}
+					else
+					{
+						val = -1;
+					}
+				} 
 
-			setData(x, y, val);
+				setData(x, y, val);
 			}
 		}
 	};
@@ -296,25 +295,25 @@ class Sprite
 		{
 			for (x in 0...w)
 			{
-			if (getData(x, y) > 0)
-			{
-				if (y - 1 >= 0 && getData(x, y-1) == 0)
+				if (getData(x, y) > 0)
 				{
-				setData(x, y-1, -1);
+					if (y - 1 >= 0 && getData(x, y-1) == 0)
+					{
+						setData(x, y-1, -1);
+					}
+					if (y + 1 < height && getData(x, y+1) == 0)
+					{
+						setData(x, y+1, -1);
+					}
+					if (x - 1 >= 0 && getData(x-1, y) == 0)
+					{
+						setData(x-1, y, -1);
+					}
+					if (x + 1 < width && getData(x+1, y) == 0)
+					{
+						setData(x+1, y, -1);
+					}
 				}
-				if (y + 1 < height && getData(x, y+1) == 0)
-				{
-				setData(x, y+1, -1);
-				}
-				if (x - 1 >= 0 && getData(x-1, y) == 0)
-				{
-				setData(x-1, y, -1);
-				}
-				if (x + 1 < width && getData(x+1, y) == 0)
-				{
-				setData(x+1, y, -1);
-				}
-			}
 			}
 		}
 	};
@@ -331,14 +330,14 @@ class Sprite
 	private function renderPixelData():Void
 	{
 		// Prepare all the variables first
-		var isVerticalGradient:Bool = Math.random() > 0.5;
-		var saturation:Float	= Math.max( Math.min( Math.random() * saturation, 1 ), 0);
-		var hue:Float	= Math.random();
+		var isVerticalGradient:Bool 	= Math.random() > 0.5;
+		var saturation:Float			= Math.max( Math.min( Math.random() * saturation, 1 ), 0);
+		var hue:Float					= Math.random();
 
-		var u:Int = 0;
-		var v:Int = 0;
-		var ulen:Int = 0;
-		var vlen:Int = 0;
+		var u:Int 		= 0;
+		var v:Int 		= 0;
+		var ulen:Int 	= 0;
+		var vlen:Int 	= 0;
 
 		var isNewColor:Float = 0;
 
@@ -377,61 +376,79 @@ class Sprite
 			// Only change the color sometimes (values above 0.8 are less likely than others)
 			if (isNewColor > (1 - colorVariations))
 			{
-			hue = Math.random();
+				hue = Math.random();
 			}
 
 			for (v in 0...vlen)
 			{
-			if (isVerticalGradient)
-			{
-				val	= getData(v, u);
-				index = (u * vlen + v) * 4;
-				x	= v;
-				y	= u;
-			}
-			else
-			{
-				val	= getData(u, v);
-			  index = (v * ulen + u) * 4;
-			  x	= u;
-			  y	= v;
-			}
-
-			color.setRGB(1,1,1);
-
-			if (val != 0)
-			{
-			  if (isColored)
-			  {
-				// Fade brightness away towards the edges
-				brightness = Math.sin((u / ulen) * Math.PI) * (1 - brightnessNoise) 
-										+ Math.random() * brightnessNoise;
-
-				// Get the RGB color value
-				color.setHSL(hue, saturation, brightness);
-
-				// If this is an edge, then darken the pixel
-				if (val == -1)
+				if (isVerticalGradient)
 				{
-				  color.r *= edgeBrightness;
-				  color.g *= edgeBrightness;
-				  color.b *= edgeBrightness;
+					val	= getData(v, u);
+					index = (u * vlen + v) * 4;
+					x	= v;
+					y	= u;
+				}
+				else
+				{
+					val	= getData(u, v);
+					index = (v * ulen + u) * 4;
+					x	= u;
+					y	= v;
 				}
 
-			  }
-			  else
-			  {
-				// Not colored, simply output black
-				if (val == -1)
-				{
-				  color.r = 0;
-				  color.g = 0;
-				  color.b = 0;
-				}
-			  }
-			}
+				color.setRGB(1,1,1);
 
-			_bitmapData.setPixel( x, y , color.getRGB() );
+				if (val != 0)
+				{
+					if (isColored)
+					{
+						// Fade brightness away towards the edges
+						brightness = Math.sin((u / ulen) * Math.PI) * (1 - brightnessNoise) + Math.random() * brightnessNoise;
+
+						// Get the RGB color value
+						color.setHSL(hue, saturation, brightness);
+
+						// If this is an edge, then darken the pixel
+						if (val == -1)
+						{
+							color.r *= edgeBrightness;
+							color.g *= edgeBrightness;
+							color.b *= edgeBrightness;
+						}
+
+				 	}
+					else
+					{
+						// Not colored, simply output black
+						if (val == -1)
+						{
+							color.r = 0;
+							color.g = 0;
+							color.b = 0;
+						}
+
+						/*
+						*	-1 = Always border (black)
+						*	0 = Empty
+						*	1 = Randomly chosen Empty/Body
+						*	2 = Randomly chosen Border/Body
+						*/
+						if(val == 1){
+							color.r = 0.93;
+							color.g = 0.15;
+							color.b = 0.29;
+						}
+						// Generick RGB decimal
+				  	}
+					_bitmapData.setPixel( x, y , color.getRGB() );
+				}
+				// else
+				// {
+					
+				// _bitmapData.setPixel32( x, y , 0 );
+		  	
+				// }
+
 		  	}
 		}
 
@@ -439,32 +456,32 @@ class Sprite
 	};
 
 
-  /**
-  *	This method converts the template data to a string value for debugging
-  *	purposes.
-  *
-  *	@method toString
-  *	@returns {undefined}
-  */
-  public function toString():String
-  {
-	var h:Int = height;
-	var w:Int = width;
-	var x:Int = 0;
-	var y:Int = 0;
-	var output:String = "";
-
-	for (y in 0...h)
+	/**
+	*	This method converts the template data to a string value for debugging
+	*	purposes.
+	*
+	*	@method toString
+	*	@returns {undefined}
+	*/
+	public function toString():String
 	{
-		for (x in 0...w)
+		var h:Int = height;
+		var w:Int = width;
+		var x:Int = 0;
+		var y:Int = 0;
+		var output:String = "";
+
+		for (y in 0...h)
 		{
-			var val = getData(x, y);
-			output += (val >= 0) ? " " + val : "" + val;
-	  	}
-	  	output += "\n";
-	}
-	return output;
-  };
+			for (x in 0...w)
+			{
+				var val = getData(x, y);
+				output += (val >= 0) ? " " + val : "" + val;
+			}
+			output += "\n";
+		}
+		return output;
+	};
 
 
 }
