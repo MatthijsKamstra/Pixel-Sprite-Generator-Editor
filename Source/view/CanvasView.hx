@@ -30,16 +30,16 @@ class CanvasView extends Sprite
 	{
 		var w = (mask.width * BlockConstant.WIDTH) + 1;
 		var h = (mask.height * BlockConstant.WIDTH) + 1;
+		var p = 10;
 
 		var _bg = new Sprite();
 		_bg.graphics.clear();
 		_bg.graphics.beginFill(ColorConstant.CANVAS_BORDER, 1);
-		_bg.graphics.drawRect(0, 0, w, h);
+		_bg.graphics.drawRect(0, 0, w , h );
 		_bg.graphics.endFill();
 		this.addChild(_bg);
 
-		_bg.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDownHandler );
-		_bg.addEventListener( MouseEvent.MOUSE_UP, onMouseUpHandler );
+
 
 
 		_container = new Sprite();
@@ -65,27 +65,20 @@ class CanvasView extends Sprite
 		}
 
 		this.addChild(_container);
+
+		var _cover = new Sprite();
+		_cover.graphics.clear();
+		_cover.graphics.beginFill(ColorConstant.CANVAS_BORDER, 0);
+		_cover.graphics.drawRect(-p, -p, w + (2*p), h + (2*p));
+		_cover.graphics.endFill();
+		this.addChild(_cover);
+
+		_cover.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDownHandler );
+		_cover.addEventListener( MouseEvent.MOUSE_UP, onMouseUpHandler );
+		// _cover.addEventListener( MouseEvent.MOUSE_OUT, onMouseOutHandler );
 	}
 
-	function onMouseDownHandler(e:MouseEvent):Void
-	{
-		_isDrag = true;
-		openfl.Lib.current.stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
-		// openfl.Lib.stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
-	}
-	
-	function onMouseUpHandler (e:MouseEvent):Void
-	{
-		_isDrag = false;
-		hitTest(Std.int (e.localX),Std.int (e.localY));
-		openfl.Lib.current.stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
-		signal.dispatch(_mask);
-	}
 
-	function onMouseMoveHandler (e:MouseEvent):Void
-	{
-		hitTest(Std.int (e.localX),Std.int (e.localY));
-	}
 
 	function hitTest(x:Int,y:Int):Void
 	{
@@ -111,5 +104,31 @@ class CanvasView extends Sprite
 		
 	}
 	
+	// ____________________________________ handlers ____________________________________
 
+	// function onMouseOutHandler(e:MouseEvent):Void
+	// {
+	// 	if(openfl.Lib.current.stage.hasEventListener(MouseEvent.MOUSE_MOVE)) 
+	// 		openfl.Lib.current.stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
+	// }
+
+	function onMouseDownHandler(e:MouseEvent):Void
+	{
+		_isDrag = true;
+		openfl.Lib.current.stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
+		// openfl.Lib.stage.addEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
+	}
+	
+	function onMouseUpHandler (e:MouseEvent):Void
+	{
+		_isDrag = false;
+		hitTest(Std.int (e.localX),Std.int (e.localY));
+		openfl.Lib.current.stage.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMoveHandler);
+		signal.dispatch(_mask);
+	}
+
+	function onMouseMoveHandler (e:MouseEvent):Void
+	{
+		hitTest(Std.int (e.localX),Std.int (e.localY));
+	}
 }
