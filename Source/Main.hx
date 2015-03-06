@@ -120,8 +120,10 @@ class Main extends Sprite {
 	1, 1, 0, 0
 	], 4, 11, true, false);
 
-	var custom 		= new psg.Mask([], 15, 15, true, false);
-	var customBig 	= new psg.Mask([], 25, 25, true, false);
+	// var custom 		= new psg.Mask([], 15, 15, true, false);
+	var customBig 	= new psg.Mask([], 100, 25, false, true);
+
+	var custom = new psg.Mask([] , 85 , 25 , false , true);
 
 	private var SPRITE_COUNT:Int = 10; 
 	private var SPRITE_XMAX:Int = 700;
@@ -177,7 +179,7 @@ class Main extends Sprite {
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
 		Lib.current.stage.frameRate = 60;
 
-		_currentMask = humanoid;
+		_currentMask = custom;
 
 		this.addChild(_canvasContainer);
 		this.addChild(_previewContainer);
@@ -187,6 +189,9 @@ class Main extends Sprite {
 		this.addChild(_menuContainer);
 
 		var fps:FPSMeter = new FPSMeter(this, stage.stageWidth-100, 20);
+
+		Lib.current.stage.addEventListener(Event.RESIZE, resize);
+
 	}
 
 	// var _toolArray:Array<String> = ['pencil tool (p)', 'eraser tool (e)', 'zoom tool (z)', 'canvas tool (c)', 'flip horizontal', 'flip vertical'];
@@ -247,7 +252,7 @@ class Main extends Sprite {
 
 
 		combobox = new ComboBox(vbox4, 0, 0, _preSetArray[1].label, _preSetArray );
-		combobox.selectedIndex = 2;
+		combobox.selectedIndex = 0;
 		combobox.addEventListener(Event.SELECT, onComboBoxHandler);
 
 		var Label = new Label(vbox4, 0, 0, 'canvas width');
@@ -390,6 +395,83 @@ class Main extends Sprite {
 		canvasView.signal.add(onSignalHandler);
 		_canvasContainer.addChild(canvasView);
 
+		if(_currentMask == custom) {
+
+			var _alpha = 1;
+
+			var _line = new Shape();
+			_line.graphics.clear();
+			_line.graphics.lineStyle(0.1, 0x990000, _alpha);
+			_line.graphics.moveTo(37 * BlockConstant.WIDTH , 0); 
+			_line.graphics.lineTo(37 * BlockConstant.WIDTH , custom.height * BlockConstant.WIDTH);
+			_canvasContainer.addChild(_line);
+
+			var _line = new Shape();
+			_line.graphics.clear();
+			_line.graphics.lineStyle(0.1, 0x990000, _alpha);
+			_line.graphics.moveTo(50 * BlockConstant.WIDTH , 0); 
+			_line.graphics.lineTo(50 * BlockConstant.WIDTH , custom.height * BlockConstant.WIDTH);
+			_canvasContainer.addChild(_line);
+
+			var _line = new Shape();
+			_line.graphics.clear();
+			_line.graphics.lineStyle(0.1, 0x990000, _alpha);
+			_line.graphics.moveTo(53 * BlockConstant.WIDTH , 0); 
+			_line.graphics.lineTo(53 * BlockConstant.WIDTH , custom.height * BlockConstant.WIDTH);
+			_canvasContainer.addChild(_line);
+
+			var _line = new Shape();
+			_line.graphics.clear();
+			_line.graphics.lineStyle(0.1, 0x990000, _alpha);
+			_line.graphics.moveTo(53 * BlockConstant.WIDTH , 0); 
+			_line.graphics.lineTo(53 * BlockConstant.WIDTH , custom.height * BlockConstant.WIDTH);
+			_canvasContainer.addChild(_line);
+
+			var _line = new Shape();
+			_line.graphics.clear();
+			_line.graphics.lineStyle(0.1, 0x990000, _alpha);
+			_line.graphics.moveTo(55 * BlockConstant.WIDTH , 0); 
+			_line.graphics.lineTo(55 * BlockConstant.WIDTH , custom.height * BlockConstant.WIDTH);
+			_canvasContainer.addChild(_line);
+
+			var _line = new Shape();
+			_line.graphics.clear();
+			_line.graphics.lineStyle(0.1, 0x990000, _alpha);
+			_line.graphics.moveTo(82 * BlockConstant.WIDTH , 0); 
+			_line.graphics.lineTo(82 * BlockConstant.WIDTH , custom.height * BlockConstant.WIDTH);
+			_canvasContainer.addChild(_line);
+
+
+			var _line = new Shape();
+			_line.graphics.clear();
+			_line.graphics.lineStyle(0.1, 0x3498db, _alpha);
+			_line.graphics.moveTo(16 * BlockConstant.WIDTH , 0); 
+			_line.graphics.lineTo(16 * BlockConstant.WIDTH , custom.height * BlockConstant.WIDTH);
+			_canvasContainer.addChild(_line);
+
+			var _line = new Shape();
+			_line.graphics.clear();
+			_line.graphics.lineStyle(0.1, 0x3498db, _alpha);
+			_line.graphics.moveTo((55+9) * BlockConstant.WIDTH , 0); 
+			_line.graphics.lineTo((55+9) * BlockConstant.WIDTH , custom.height * BlockConstant.WIDTH);
+			_canvasContainer.addChild(_line);
+
+			var _line = new Shape();
+			_line.graphics.clear();
+			_line.graphics.lineStyle(0.1, 0x3498db, _alpha);
+			_line.graphics.moveTo(21 * BlockConstant.WIDTH , 0); 
+			_line.graphics.lineTo(21 * BlockConstant.WIDTH , custom.height * BlockConstant.WIDTH);
+			_canvasContainer.addChild(_line);
+
+			var _line = new Shape();
+			_line.graphics.clear();
+			_line.graphics.lineStyle(0.1, 0x3498db, _alpha);
+			_line.graphics.moveTo(0, (custom.height - 09) * BlockConstant.WIDTH); 
+			_line.graphics.lineTo(custom.width * BlockConstant.WIDTH, (custom.height - 09) * BlockConstant.WIDTH);
+			_canvasContainer.addChild(_line);
+		}
+
+
 		centerCanvas();
 	}
 
@@ -397,6 +479,10 @@ class Main extends Sprite {
 	{
 		_canvasContainer.x = Std.int ((this.stage.stageWidth - _canvasContainer.width )/2);
 		_canvasContainer.y = Std.int ((this.stage.stageHeight - _canvasContainer.height )/2);
+
+
+		_previewContainer.x = Std.int (this.stage.stageWidth - _previewContainer.width - (2*SPRITE_SPACING));
+		_previewContainer.y = Std.int (this.stage.stageHeight - _previewContainer.height  - (2*SPRITE_SPACING));
 	}
 
 	function updatePreview():Void
@@ -622,6 +708,12 @@ class Main extends Sprite {
 	{
 		// trace("onChange");
 		// stopTweens();
+	}
+
+	private function resize(e:Event)
+	{
+		centerCanvas();
+		// centerPreview();
 	}
 	
 		
